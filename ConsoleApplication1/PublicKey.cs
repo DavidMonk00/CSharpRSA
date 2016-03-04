@@ -5,9 +5,9 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Numerics;
 
-namespace ConsoleApplication1
+namespace RSA
 {
-    class PublicKey
+    public class PublicKey
     {
         public BigInteger n;
         public BigInteger e;

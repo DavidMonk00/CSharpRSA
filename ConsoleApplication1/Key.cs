@@ -19,7 +19,14 @@ namespace RSA
         public int key_length;
         private BigInteger e = new BigInteger(65537);
         private BigInteger d;
-        //public PublicKey pubkey;
+        public PublicKey publickey;
+        public PrivateKey privatekey;
+        String filepath;
 
+        public Key(int exp)
+        {
+            this.strength = exp;
+            this.start = BigInteger.Pow(new BigInteger(2), exp) + new BigInteger(11);
+        }
     }
 }

@@ -7,7 +7,7 @@ using System.Numerics;
 
 namespace RSA
 {
-    class PrivateKey
+    public class PrivateKey
     {
         public BigInteger d;
         public BigInteger n;
