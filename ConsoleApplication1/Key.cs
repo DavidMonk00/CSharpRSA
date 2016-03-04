@@ -4,6 +4,8 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Numerics;
+using System.IO;
+using System.Security.AccessControl;
 
 namespace RSA
 {
@@ -21,7 +23,6 @@ namespace RSA
         private BigInteger d;
         public PublicKey publickey;
         public PrivateKey privatekey;
-        String filepath;
 
         public Key(int exp)
         {
@@ -40,5 +41,23 @@ namespace RSA
         public void dGen() { this.d = BigInteger.ModPow(this.e , -1, phi_n); }
         public void PublicKeyGen() { this.publickey = new PublicKey(n, e); }
         public void PrivateKeyGen() { this.privatekey = new PrivateKey(n, d); }
+        private string getDateTime() { return DateTime.Now.ToString("yyyyMMddHHmmss"); }
+        public void SaveKey()
+        {
+            string path = "C:\\Users\\Public\\keys";
+            if (Directory.Exists(path) == false)
+            {
+                DirectorySecurity securityRules = new DirectorySecurity();
+                securityRules.AddAccessRule(new FileSystemAccessRule(@"David", FileSystemRights.FullControl, AccessControlType.Allow));
+                Directory.CreateDirectory(path, securityRules);
+            }
+            string filepath = path + @"\" + string.Concat(this.strength) + "_" + getDateTime()+".txt";
+            using (StreamWriter file = new StreamWriter(@"C:\Users\Public\key.txt"))
+            {
+                file.WriteLine(publickey.n.ToString());
+                file.WriteLine(publickey.e.ToString());
+                file.WriteLine(privatekey.d.ToString());
+            }
+        }
     }
 }
