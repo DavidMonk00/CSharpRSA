@@ -16,7 +16,7 @@ namespace RSA
         private BigInteger q;
         private BigInteger n;
         private BigInteger phi_n;
-        public int key_length;
+        public double key_length;
         private BigInteger e = new BigInteger(65537);
         private BigInteger d;
         public PublicKey publickey;
@@ -26,7 +26,19 @@ namespace RSA
         public Key(int exp)
         {
             this.strength = exp;
-            this.start = BigInteger.Pow(new BigInteger(2), exp) + new BigInteger(11);
+            this.start = BigInteger.Pow(new BigInteger(2), exp) + new BigInteger(new Random().Next(10000));
+            this.start_second = this.start + BigInteger.Pow(new BigInteger(2), exp - 2);
         }
+        public void pGen() { this.p = PrimeGen.Gen(this.start); }
+        public void qGen() { this.q = PrimeGen.Gen(this.start_second); }
+        public void nGen()
+        {
+            this.n = this.p * this.q;
+            this.phi_n = this.n - (this.p + this.q - new BigInteger(1));
+            this.key_length = Math.Ceiling(BigInteger.Log(this.n, 2));
+        }
+        public void dGen() { this.d = BigInteger.ModPow(this.e , -1, phi_n); }
+        public void PublicKeyGen() { this.publickey = new PublicKey(n, e); }
+        public void PrivateKeyGen() { this.privatekey = new PrivateKey(n, d); }
     }
 }
