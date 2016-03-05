@@ -10,15 +10,21 @@ namespace RSA
     {
         static void Main(string[] args)
         {
-            Key k = new Key(32);
+            Console.Write("Enter strength: ");
+            int str = int.Parse(Console.ReadLine());
+            Console.WriteLine("Starting key generation...");
+            Key k = new Key(str);
             k.pGen();
+            Console.WriteLine("First prime generated.");
             k.qGen();
+            Console.WriteLine("Second prime generated.");
             k.nGen();
             Console.WriteLine("phi_n = " + k.phi_n);
             k.dGen();
             k.PublicKeyGen();
             k.PrivateKeyGen();
-            //k.SaveKey();
+            k.SaveKey();
+            Console.WriteLine("Key Generation Completed");
             Console.ReadLine();
         }
 
