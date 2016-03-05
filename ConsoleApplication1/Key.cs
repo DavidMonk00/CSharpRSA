@@ -17,9 +17,9 @@ namespace RSA
         private BigInteger p;
         private BigInteger q;
         private BigInteger n;
-        private BigInteger phi_n;
+        public BigInteger phi_n;
         public double key_length;
-        private BigInteger e = new BigInteger(65537);
+        public BigInteger e = new BigInteger(65537);
         private BigInteger d;
         public PublicKey publickey;
         public PrivateKey privatekey;
@@ -38,7 +38,29 @@ namespace RSA
             this.phi_n = this.n - (this.p + this.q - new BigInteger(1));
             this.key_length = Math.Ceiling(BigInteger.Log(this.n, 2));
         }
-        public void dGen() { this.d = BigInteger.ModPow(this.e , -1, phi_n); }
+        private BigInteger ModInv(BigInteger u, BigInteger v)
+        {
+            BigInteger inv, u1, u3, v1, v3, t1, t3, q;
+            int iter;
+            u1 = 1;
+            u3 = u;
+            v1 = 0;
+            v3 = v;
+            iter = 1;
+            while (v3 != 0)
+            {
+                q = u3 / v3;
+                t3 = u3 % v3;
+                t1 = u1 + q * v1;
+                u1 = v1; v1 = t1; u3 = v3; v3 = t3;
+                iter = -iter;
+            }
+            if (u3 != 1) { return 0; }
+            if (iter < 0) { inv = v - u1; }
+            else { inv = u1; }
+            return inv;
+        }
+        public void dGen() { this.d = ModInv(this.e, phi_n); }
         public void PublicKeyGen() { this.publickey = new PublicKey(n, e); }
         public void PrivateKeyGen() { this.privatekey = new PrivateKey(n, d); }
         private string getDateTime() { return DateTime.Now.ToString("yyyyMMddHHmmss"); }
