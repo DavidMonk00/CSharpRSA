@@ -24,21 +24,15 @@ namespace RSA
             Console.WriteLine("Key Generation Completed");
             return k.key_length;
         }
+        static void Encryption(string key_file, string filepath)
+        {
+            Encrypt E = new Encrypt(key_file, filepath);
+            E.EncryptFile();
+        }
         static void Main(string[] args)
         {
-            /*Console.Write("Enter strength: ");
-            int str = int.Parse(Console.ReadLine());
-            Console.WriteLine("Key strength = " + KeyGeneration(str) + "bits");
-            StreamReader objReader = new StreamReader(@"C:\Users\Public\keys\test.txt");
-            do
-            {
-                char[] l = objReader.ReadLine().ToCharArray();
-                foreach (char c in l) { Console.Write(Convert.ToInt32(c)); }
-                Console.WriteLine();
-            } while (objReader.Peek() != -1);
-            objReader.Close();*/
-            string[] x = { "are", "hfdifhg", "dfkhgkdjf" };
-            Console.WriteLine(string.Join("", x).Substring(0,3));
+            Encryption(@"C:\Users\Public\keys\36_20160305183848.txt", @"C:\Users\Public\keys\test.txt");
+            Console.WriteLine("Encryption Complete.");
             Console.ReadLine();
         }
 

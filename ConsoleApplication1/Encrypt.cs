@@ -14,8 +14,6 @@ namespace RSA
         PublicKey publickey;
         string filepath;
 
-        public BigInteger[][] m;
-        public string[] c;
         public Encrypt(string key_file, string filepath)
         {
             this.key_file = key_file;
@@ -23,11 +21,11 @@ namespace RSA
             this.publickey = new PublicKey(BigInteger.Parse(lines[0]), BigInteger.Parse(lines[1]));
             this.filepath = filepath;
         }
-        public string EncryptLine(string line)
+        private string EncryptLine(string line)
         {
             char[] char_array = line.ToCharArray();
             string[] int_array = new string[char_array.Length];
-            for (int i = 0; i < char_array.Length; i++) { int_array[i] = string.Format("%04d", (int)char_array[i]); }
+            for (int i = 0; i < char_array.Length; i++) { int_array[i] = ((int)char_array[i]).ToString("0000.##"); }
             string int_string = string.Join("", int_array);
             int n_length = publickey.n.ToString().Length - 2;
             int key_number = (int_string.Length + n_length - 1)/n_length;
@@ -38,7 +36,7 @@ namespace RSA
                 int index = i * n_length;
                 if (index + n_length < int_string.Length)
                 {
-                    m_line = BigInteger.Parse("1" + int_string.Substring(index, index + n_length));
+                    m_line = BigInteger.Parse("1" + int_string.Substring(index, n_length));
                 }
                 else
                 {
@@ -50,14 +48,16 @@ namespace RSA
         }
         public void EncryptFile()
         {
+            string new_filepath = this.filepath.Split(".".ToCharArray()[0])[0] + ".encrypt";
+            StreamWriter objWriter = new StreamWriter(new_filepath);
             StreamReader objReader = new StreamReader(this.filepath);
             do
             {
-                char[] l = objReader.ReadLine().ToCharArray();
-                foreach (char c in l) { Console.Write(Convert.ToInt32(c)); }
-                Console.WriteLine();
+                string c_line = EncryptLine(objReader.ReadLine());
+                objWriter.WriteLine(c_line);
             } while (objReader.Peek() != -1);
-            objReader.Close(); */
+            objReader.Close();
+            objWriter.Close();
         }
     }
 }
