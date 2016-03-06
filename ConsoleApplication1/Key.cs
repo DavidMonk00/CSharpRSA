@@ -74,7 +74,7 @@ namespace RSA
                 Directory.CreateDirectory(path, securityRules);
             }
             string filepath = path + @"\" + string.Concat(this.strength) + "_" + getDateTime()+".txt";
-            using (StreamWriter file = new StreamWriter(@"C:\Users\Public\keys\" + string.Concat(this.strength) + "_" + getDateTime() + ".txt"))
+            using (StreamWriter file = new StreamWriter(@"C:\Users\Public\keys\" + string.Concat(this.strength) + "_" + getDateTime() + ".key"))
             {
                 file.WriteLine(publickey.n.ToString());
                 file.WriteLine(publickey.e.ToString());

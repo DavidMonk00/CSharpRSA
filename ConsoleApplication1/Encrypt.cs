@@ -13,7 +13,6 @@ namespace RSA
         string key_file;
         PublicKey publickey;
         string filepath;
-
         public Encrypt(string key_file, string filepath)
         {
             this.key_file = key_file;
@@ -51,6 +50,8 @@ namespace RSA
             string new_filepath = this.filepath.Split(".".ToCharArray()[0])[0] + ".encrypt";
             StreamWriter objWriter = new StreamWriter(new_filepath);
             StreamReader objReader = new StreamReader(this.filepath);
+            objWriter.WriteLine(Path.GetExtension(this.filepath));
+            objWriter.WriteLine(this.key_file);
             do
             {
                 string c_line = EncryptLine(objReader.ReadLine());

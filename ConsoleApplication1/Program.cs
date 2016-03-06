@@ -31,7 +31,8 @@ namespace RSA
         }
         static void Main(string[] args)
         {
-            Encryption(@"C:\Users\Public\keys\36_20160305183848.txt", @"C:\Users\Public\keys\test.txt");
+            //KeyGeneration(32);
+            Encryption(@"C:\Users\Public\keys\32_20160306223259.key", @"C:\Users\Public\keys\test.txt");
             Console.WriteLine("Encryption Complete.");
             Console.ReadLine();
         }
